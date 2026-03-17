@@ -245,7 +245,7 @@ h1 em{font-style:normal;color:var(--ac2)}
       <a href="#stats">Результаты</a>
       <a href="#reviews">Отзывы</a>
     </div>
-    <a class="nav-btn" id="nav-dl" href="#" onclick="download();return false;">
+    <a class="nav-btn dl-btn" href="https://github.com/AzByKa009/AIshtab/releases/download/v1.2.0/AI-Shtab-Setup-1.2.0.exe">
       Скачать .exe
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     </a>
@@ -262,7 +262,7 @@ h1 em{font-style:normal;color:var(--ac2)}
     <h1 class="r v d1">Находи клиентов.<br><em>Продавай</em><br>на автомате.</h1>
     <p class="hero-desc r v d2">AI Штаб — мультиагентная система для фрилансеров. Один запрос в чат запускает цепочку агентов: парсинг → анализ → продающее сообщение → диалог.</p>
     <div class="hero-btns r v d3">
-      <a class="btn-p" href="#" onclick="download();return false;">
+      <a class="btn-p dl-btn" href="https://github.com/AzByKa009/AIshtab/releases/download/v1.2.0/AI-Shtab-Setup-1.2.0.exe">
         Скачать бесплатно · Windows
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
       </a>
@@ -563,7 +563,7 @@ h1 em{font-style:normal;color:var(--ac2)}
     <h2>Скачай и<br>запусти сегодня</h2>
     <p>Никакой подписки, никакого кода. Устанавливаешь — вводишь бесплатный Groq API ключ — запускаешь первый поиск.</p>
     <div style="display:flex;flex-direction:column;align-items:center;gap:16px">
-      <a class="btn-p" href="#" onclick="download();return false;" style="font-size:15px;padding:14px 32px">
+      <a class="btn-p dl-btn" href="https://github.com/AzByKa009/AIshtab/releases/download/v1.2.0/AI-Shtab-Setup-1.2.0.exe" style="font-size:15px;padding:14px 32px">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         Скачать AI Штаб — Windows x64
       </a>
@@ -587,7 +587,7 @@ h1 em{font-style:normal;color:var(--ac2)}
       <a href="#features">Агенты</a>
       <a href="#how">Как работает</a>
       <a href="#reviews">Отзывы</a>
-      <a href="#" onclick="download();return false;">Скачать .exe</a>
+      <a class="dl-btn" href="https://github.com/AzByKa009/AIshtab/releases/download/v1.2.0/AI-Shtab-Setup-1.2.0.exe">Скачать .exe</a>
       <a href="https://github.com/azbyka009/AIshtab/releases" target="_blank">GitHub</a>
     </div>
     <span class="footer-copy">© 2025 AI Штаб</span>
@@ -602,29 +602,23 @@ const GITHUB_REPO  = 'AIshtab'
 let latestVersion = '1.2.0'
 let downloadUrl   = 'https://github.com/AzByKa009/AIshtab/releases/download/v1.2.0/AI-Shtab-Setup-1.2.0.exe'
 
-// Получаем последний релиз с GitHub
+// Получаем последний релиз с GitHub и обновляем ссылки
 fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`)
   .then(r => r.json())
   .then(release => {
     if (!release.tag_name) return
     latestVersion = release.tag_name.replace(/^v/, '')
     const asset = release.assets?.find(a => a.name.endsWith('.exe'))
-    if (asset) downloadUrl = asset.browser_download_url
-    // Обновляем все места с версией
+    if (asset) {
+      downloadUrl = asset.browser_download_url
+      // Обновляем href у всех кнопок скачивания
+      document.querySelectorAll('.dl-btn').forEach(el => el.href = downloadUrl)
+    }
     document.querySelectorAll('#ver-badge, #cta-ver').forEach(el => {
       el.textContent = el.id === 'cta-ver' ? `Версия ${latestVersion}` : `v${latestVersion}`
     })
   })
   .catch(() => {})
-
-function download() {
-  const a = document.createElement('a')
-  a.href = downloadUrl
-  a.download = 'AI-Shtab-Setup.exe'
-  document.body.appendChild(a)
-  a.click()
-  document.body.removeChild(a)
-}
 
 // ── Reveal on scroll ──
 const obs = new IntersectionObserver((entries) => {
