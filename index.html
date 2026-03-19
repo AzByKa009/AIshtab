@@ -260,7 +260,7 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
   <div class="hero-left">
     <div class="hero-badge r v">
       <span class="hero-badge-dot"></span>
-      Версия 1.2.0 — AI агенты
+      Версия 2.0.0 — AI агенты
     </div>
     <h1 class="r v d1">Находи клиентов.<br><em>Продавай</em><br>на автомате.</h1>
     <p class="hero-desc r v d2">NEXUS — мультиагентная система для фрилансеров. Один запрос в чат запускает цепочку агентов: парсинг → анализ → продающее сообщение → диалог.</p>
@@ -274,7 +274,7 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
       </button>
     </div>
     <div class="hero-meta r v d4" style="margin-top:16px;font-size:12px;color:var(--t3);display:flex;align-items:center;gap:16px">
-      <span id="ver-badge">v1.2.0</span>
+      <span id="ver-badge">v2.0.0</span>
       <span>·</span>
       <span>Groq API (бесплатно)</span>
       <span>·</span>
@@ -568,7 +568,7 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
         Скачать NEXUS — Windows x64
       </a>
       <div style="font-size:12px;color:var(--t3);display:flex;align-items:center;gap:12px">
-        <span id="cta-ver">Версия 1.2.0</span>
+        <span id="cta-ver">Версия 2.0.0</span>
         <span>·</span>
         <a href="https://github.com/azbyka009/NEXUS/releases" target="_blank" style="color:var(--t3);text-decoration:underline;text-underline-offset:3px">Все релизы на GitHub</a>
       </div>
@@ -608,14 +608,14 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
 <script>
 const GITHUB_OWNER = 'azbyka009'
 const GITHUB_REPO  = 'NEXUS'
-let downloadUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/NEXUS-Setup-1.2.0.exe`
+let downloadUrl = `https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest/download/NEXUS-Setup-2.0.0.exe`
 
 fetch(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/releases/latest`)
   .then(r => r.json())
   .then(data => {
     const asset = data.assets && data.assets.find(a => a.name.endsWith('.exe'))
     if (asset) downloadUrl = asset.browser_download_url
-    const tag = data.tag_name || 'v1.2.0'
+    const tag = data.tag_name || 'v2.0.0'
     document.querySelectorAll('.dl-btn').forEach(el => el.href = downloadUrl)
     const vb = document.getElementById('ver-badge')
     const cv = document.getElementById('cta-ver')
