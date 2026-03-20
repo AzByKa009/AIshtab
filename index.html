@@ -184,6 +184,72 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
 .r.v{opacity:1;transform:none}
 .r.d1{transition-delay:.08s}.r.d2{transition-delay:.16s}.r.d3{transition-delay:.24s}.r.d4{transition-delay:.32s}
 
+/* ── PREMIUM UPGRADES ── */
+
+/* Ambient background orbs */
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0}
+.orb-1{width:700px;height:700px;background:radial-gradient(circle,rgba(189,226,243,.22) 0%,transparent 65%);top:-200px;right:-200px;animation:orbFloat1 12s ease-in-out infinite alternate}
+.orb-2{width:500px;height:500px;background:radial-gradient(circle,rgba(208,232,244,.16) 0%,transparent 65%);bottom:-100px;left:5%;animation:orbFloat2 16s ease-in-out infinite alternate}
+@keyframes orbFloat1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(50px,60px) scale(1.15)}}
+@keyframes orbFloat2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-40px,-35px) scale(.88)}}
+
+/* All sections above orbs */
+nav,section,.logos,.strip,.cta,.footer{position:relative;z-index:1}
+
+/* Nav enhanced glass */
+.nav{backdrop-filter:blur(20px)!important;-webkit-backdrop-filter:blur(20px)!important}
+
+/* Hero screen 3D tilt */
+.hero-screen{
+  transform:perspective(1000px) rotateY(-4deg) rotateX(2deg);
+  transition:transform .6s cubic-bezier(.16,1,.3,1),box-shadow .6s;
+  box-shadow:0 20px 60px rgba(0,0,0,.12),0 0 0 1.5px rgba(208,232,244,.9)!important;
+  will-change:transform;
+}
+.hero-right:hover .hero-screen{
+  transform:perspective(1000px) rotateY(0) rotateX(0);
+  box-shadow:0 32px 80px rgba(0,0,0,.16),0 0 0 1.5px rgba(189,226,243,1)!important;
+}
+
+/* Hero float bob */
+.hero-float{animation:heroFloatBob 3.5s ease-in-out infinite!important}
+@keyframes heroFloatBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* Hero badge glass */
+.hero-badge{background:rgba(255,255,255,.88)!important;backdrop-filter:blur(8px)!important;box-shadow:0 2px 12px rgba(0,0,0,.06)!important}
+
+/* Feature cards 3D ready */
+.feat-grid{perspective:1200px}
+.feat-card{transition:background .25s,transform .12s ease-out,box-shadow .2s!important;will-change:transform;backface-visibility:hidden}
+.feat-card:hover{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 32px rgba(0,0,0,.08)!important;position:relative;z-index:1}
+.feat-icon{transition:transform .2s cubic-bezier(.34,1.56,.64,1)!important}
+.feat-card:hover .feat-icon{transform:scale(1.1)!important}
+
+/* Step cards */
+.steps-grid{perspective:1200px}
+.step-card{transition:background .2s,transform .12s ease-out,box-shadow .2s!important;will-change:transform;backface-visibility:hidden}
+.step-card:hover{background:var(--s2)!important;box-shadow:0 4px 20px rgba(0,0,0,.06)!important}
+.step-n{background:linear-gradient(135deg,var(--b2) 0%,rgba(208,232,244,.4) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Reviews */
+.reviews-grid{perspective:1200px}
+.review{transition:background .2s,transform .15s ease-out,box-shadow .2s!important;will-change:transform;backface-visibility:hidden}
+.review:hover{background:rgba(255,255,255,.98)!important;box-shadow:0 8px 24px rgba(0,0,0,.08)!important;position:relative;z-index:1}
+
+/* Stats strip */
+.strip-n{background:linear-gradient(135deg,#000 30%,#333);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* CTA */
+.cta{background:linear-gradient(180deg,var(--s1) 0%,rgba(240,248,252,.6) 100%)!important}
+.btn-p{box-shadow:0 4px 16px rgba(0,0,0,.2)!important;transition:all .2s cubic-bezier(.34,1.56,.64,1)!important}
+.btn-p:hover{transform:translateY(-2px) scale(1.02)!important;box-shadow:0 8px 28px rgba(0,0,0,.25)!important}
+
+/* Support section */
+.support{padding:80px 24px;border-top:1px solid var(--b1)}
+.support-inner{max-width:520px;margin:0 auto;text-align:center}
+.tg-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 28px;background:#000;border-radius:10px;color:#fff;font-size:14px;font-weight:600;letter-spacing:-.01em;transition:all .2s cubic-bezier(.34,1.56,.64,1);box-shadow:0 4px 16px rgba(0,0,0,.2)}
+.tg-btn:hover{background:#222;transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.25)}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1024px){
   .hero{flex-direction:column;gap:48px;padding-top:110px}
@@ -223,6 +289,8 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
 </style>
 </head>
 <body>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -247,6 +315,7 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
       <a href="#how">Как работает</a>
       <a href="#stats">Результаты</a>
       <a href="#reviews">Отзывы</a>
+      <a href="#support">Поддержка</a>
     </div>
     <a class="nav-btn dl-btn" href="#">
       Скачать .exe
@@ -383,42 +452,42 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
       </div>
       <div class="feat-t">Агент поиска</div>
-      <p class="feat-d">Парсит 7 платформ одновременно по твоим параметрам. Фильтрует по нише, геолокации, числу подписчиков.</p>
+      <p class="feat-d">Парсит 7 платформ одновременно: Telegram, YouTube, VK, Avito, 2GIS, TikTok, Reddit. Фильтрует по нише, геолокации и числу подписчиков. Автоматически расширяет ключевые слова — ищешь «маникюр», находит 15 смежных запросов. Возвращает список каналов с контактами и метриками.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       </div>
       <div class="feat-t">Агент анализа</div>
-      <p class="feat-d">AI изучает каждый профиль: ниша, боли, бюджет, релевантность 0–100. Только горячие лиды.</p>
+      <p class="feat-d">AI изучает каждый профиль по 12 параметрам: ниша, болевые точки, активность, бюджет. Ставит оценку релевантности 0–100 — оставляет только горячих. Читает последние посты и комментарии, чтобы понять реальные потребности клиента прямо сейчас.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       </div>
       <div class="feat-t">Агент продаж</div>
-      <p class="feat-d">Генерирует персонализированное первое сообщение по SPIN/AIDA стратегии. Проходит гуманизацию — не похоже на робота.</p>
+      <p class="feat-d">Генерирует персонализированное первое сообщение по SPIN/AIDA стратегии с учётом специфики клиента. Проходит гуманизацию — убирает шаблонные фразы, добавляет живые детали. Конверсия в ответ в 3 раза выше стандартных шаблонов.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </div>
       <div class="feat-t">Агент профилирования</div>
-      <p class="feat-d">Глубокий портрет клиента по соцсетям: стиль коммуникации, болевые точки, потенциальный бюджет.</p>
+      <p class="feat-d">Строит глубокий психологический портрет клиента: стиль коммуникации, возражения, болевые точки, оценка бюджета. Анализирует контент за последние 30 дней. Говорит на языке клиента — ты знаешь что именно сказать ещё до первого контакта.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
       </div>
       <div class="feat-t">Оркестратор</div>
-      <p class="feat-d">Главный агент-координатор. Принимает текстовый запрос и сам решает — каких агентов запустить и в каком порядке.</p>
+      <p class="feat-d">Главный агент-координатор с контекстным мышлением. Принимает свободный текстовый запрос — «найди SMM-агентства Москвы» — и сам строит план: каких агентов запустить, в каком порядке, с какими параметрами. Ты просто описываешь задачу, он делает остальное.</p>
     </div>
     <div class="feat-card">
       <div class="feat-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
       </div>
       <div class="feat-t">CRM + аналитика</div>
-      <p class="feat-d">Все лиды в базе. Статусы воронки, история переписки, экспорт в CSV. Видишь конверсию на каждом шаге.</p>
+      <p class="feat-d">Все лиды в базе с историей переписки и статусами воронки. Канбан-доска: новый → в работе → закрыт. Видишь конверсию на каждом шаге и источник каждого лида. Экспорт в CSV для дальнейшей работы.</p>
     </div>
   </div>
 </section>
@@ -576,6 +645,24 @@ h1 em{font-style:normal;color:#000;border-bottom:4px solid #bde2f3}
   </div>
 </section>
 
+<!-- SUPPORT -->
+<section id="support" class="support">
+  <div class="support-inner">
+    <div class="sect-label r" style="text-align:center;margin-bottom:14px">Поддержка</div>
+    <div class="r d1" style="font-size:32px;font-weight:800;letter-spacing:-.04em;text-transform:uppercase;line-height:1.08;margin-bottom:16px;color:#000">Есть вопросы?<br>Пишите в Telegram</div>
+    <p class="r d2" style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:32px">
+      Быстрые ответы по установке, настройке API ключей и работе агентов. Обычно отвечаю в течение нескольких часов.
+    </p>
+    <div class="r d3">
+      <a href="https://t.me/azbyka009" target="_blank" class="tg-btn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        @azbyka009
+      </a>
+      <p style="margin-top:12px;font-size:12px;color:var(--t3)">Telegram · Бесплатная поддержка</p>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer class="footer">
   <div class="footer-inner">
@@ -631,6 +718,52 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('v') })
 }, { threshold: 0.12 })
 document.querySelectorAll('.r').forEach(el => obs.observe(el))
+
+// 3D card tilt on mouse
+function addTilt(sel, maxDeg) {
+  document.querySelectorAll(sel).forEach(el => {
+    el.addEventListener('mousemove', e => {
+      const r = el.getBoundingClientRect()
+      const x = (e.clientX - r.left) / r.width  - 0.5
+      const y = (e.clientY - r.top)  / r.height - 0.5
+      el.style.transform = `perspective(600px) rotateX(${-y*maxDeg}deg) rotateY(${x*maxDeg}deg) translateZ(6px)`
+      el.style.transition = 'transform .1s ease'
+    })
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = ''
+      el.style.transition = 'transform .5s cubic-bezier(.34,1.56,.64,1)'
+    })
+  })
+}
+addTilt('.feat-card', 6)
+addTilt('.step-card', 5)
+addTilt('.review', 4)
+
+// Animated counters for stats strip
+function animCount(el, to, dur, sfx) {
+  const start = performance.now()
+  const dec = String(to).includes('.')
+  ;(function tick(now) {
+    const p = Math.min((now - start) / dur, 1)
+    const ease = 1 - Math.pow(1 - p, 3)
+    el.textContent = (dec ? (to * ease).toFixed(1) : Math.floor(to * ease)) + sfx
+    if (p < 1) requestAnimationFrame(tick)
+  })(start)
+}
+const stripObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting) return
+    stripObs.unobserve(e.target)
+    e.target.querySelectorAll('.strip-n').forEach(el => {
+      const raw = el.textContent.trim()
+      if (raw.includes('–')) return
+      const num = parseFloat(raw.replace(/[^\d.]/g,''))
+      const sfx = raw.replace(/[\d.]/g,'')
+      if (!isNaN(num)) animCount(el, num, 1400, sfx)
+    })
+  })
+}, { threshold: 0.4 })
+document.querySelectorAll('#stats').forEach(el => stripObs.observe(el))
 </script>
 </body>
 </html>
