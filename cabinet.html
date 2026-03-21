@@ -151,11 +151,14 @@ async function signOut() {
   window.location.href = 'index.html'
 }
 
-let _refLink = ''
+let _refLinkWeb = ''
+let _refLinkTg = ''
 
-function copyRefLink() {
-  navigator.clipboard.writeText(_refLink).then(() => {
-    const btn = document.getElementById('copyBtn')
+function copyRef(which) {
+  const text = which === 'tg' ? _refLinkTg : _refLinkWeb
+  const btnId = which === 'tg' ? 'copyBtnTg' : 'copyBtnWeb'
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = document.getElementById(btnId)
     const orig = btn.textContent
     btn.textContent = 'Скопировано!'
     setTimeout(() => btn.textContent = orig, 2000)
@@ -174,18 +177,29 @@ function renderProfile(user, profile) {
   const tgInfo = username ? `@${username}` : (profile?.telegram_id ? `#${profile.telegram_id}` : '—')
   const initial = name.charAt(0).toUpperCase()
 
-  // Строим реферальную ссылку: origin + путь до index + ?ref=CODE
   const base = window.location.href.replace('cabinet.html', '')
-  _refLink = refCode ? base + '?ref=' + refCode : ''
+  _refLinkWeb = refCode ? base + '?ref=' + refCode : ''
+  _refLinkTg  = refCode ? 'https://t.me/ATNexus_Bot?start=ref_' + refCode : ''
+
+  const countWord = refCount === 1 ? 'реферал' : refCount < 5 ? 'реферала' : 'рефералов'
 
   const refSection = refCode ? `
     <div class="ref-card">
-      <div class="ref-label">Реферальная ссылка · <span style="font-weight:400;letter-spacing:0">${refCount} ${refCount === 1 ? 'реферал' : refCount < 5 ? 'реферала' : 'рефералов'}</span></div>
-      <div class="ref-row">
-        <div class="ref-code" style="font-size:13px;letter-spacing:.01em;word-break:break-all">${_refLink}</div>
-        <button class="ref-copy" id="copyBtn" onclick="copyRefLink()">Копировать</button>
+      <div class="ref-label">Реферальные ссылки · <span style="font-weight:400;letter-spacing:0">${refCount} ${countWord}</span></div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">Для сайта</div>
+      <div class="ref-row" style="margin-bottom:14px">
+        <div class="ref-code" style="font-size:12px;letter-spacing:.01em;word-break:break-all">${_refLinkWeb}</div>
+        <button class="ref-copy" id="copyBtnWeb" onclick="copyRef('web')">Копировать</button>
       </div>
-      <div class="ref-hint">Твой код: <strong>${refCode}</strong> · Поделись ссылкой — оба получите бонусы</div>
+
+      <div style="font-size:11px;font-weight:600;color:var(--t3);letter-spacing:.06em;text-transform:uppercase;margin:0 0 6px">Для Telegram</div>
+      <div class="ref-row">
+        <div class="ref-code" style="font-size:12px;letter-spacing:.01em;word-break:break-all">${_refLinkTg}</div>
+        <button class="ref-copy" id="copyBtnTg" onclick="copyRef('tg')">Копировать</button>
+      </div>
+
+      <div class="ref-hint" style="margin-top:10px">Код: <strong>${refCode}</strong> · Одна рефералка — две ссылки: для сайта и для бота</div>
     </div>` : ''
 
   document.getElementById('mainContent').innerHTML = `
