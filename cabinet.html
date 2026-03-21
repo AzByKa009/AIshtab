@@ -230,7 +230,19 @@ async function init() {
   document.getElementById('signOutBtn').style.display = ''
 
   // Загрузить профиль из users таблицы
-  const { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single()
+  let { data: profile } = await sb.from('users').select('*').eq('auth_id', session.user.id).single()
+
+  // Если referral_code не задан — генерируем и сохраняем
+  if (!profile?.referral_code) {
+    const uid = session.user.id
+    const code = 'REF' + uid.replace(/-/g, '').toUpperCase().slice(-6)
+    await sb.from('users').upsert(
+      { auth_id: uid, referral_code: code, telegram_id: profile?.telegram_id ?? 0 },
+      { onConflict: 'auth_id' }
+    )
+    profile = { ...(profile || {}), referral_code: code }
+  }
+
   renderProfile(session.user, profile)
 }
 
