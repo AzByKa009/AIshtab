@@ -165,7 +165,8 @@ function copyRefLink() {
 function renderProfile(user, profile) {
   const name = profile?.first_name || user.user_metadata?.first_name || user.email?.split('@')[0] || 'Пользователь'
   const username = profile?.username || user.user_metadata?.username || ''
-  const email = profile?.email || user.email || ''
+  const rawEmail = profile?.email || user.email || ''
+  const email = rawEmail.endsWith('@nexus.app') ? '' : rawEmail  // скрываем технический фейк-email TG-пользователей
   const refCode = profile?.referral_code || null
   const refCount = profile?.referral_count || 0
   const sub = profile?.subscription || 'none'
