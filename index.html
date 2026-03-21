@@ -893,6 +893,12 @@ const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsI
 const TG_EDGE_FN = SUPA_URL + '/functions/v1/tg-auth'
 const sb = window.supabase.createClient(SUPA_URL, SUPA_KEY)
 
+// Захватить реферальный код из URL (?ref=REFXXXXXX) и сохранить в localStorage
+;(function(){
+  const ref = new URLSearchParams(location.search).get('ref')
+  if (ref) localStorage.setItem('nexus-ref', ref)
+})()
+
 let authTab = 'login'
 
 // Проверить сессию при загрузке
@@ -973,10 +979,16 @@ async function handleEmailAuth(e) {
 
     if (res.data.user) {
       // Upsert в users (для веб-регистраций без TG)
-      await sb.from('users').upsert(
-        { auth_id: res.data.user.id, email, telegram_id: 0, username: '', first_name: email.split('@')[0] },
-        { onConflict: 'auth_id', ignoreDuplicates: false }
-      ).select()
+      const refCode = localStorage.getItem('nexus-ref') || null
+      const upsertData = {
+        auth_id: res.data.user.id,
+        email,
+        telegram_id: 0,
+        username: '',
+        first_name: email.split('@')[0],
+        ...(authTab === 'register' && refCode ? { referred_by: refCode } : {}),
+      }
+      await sb.from('users').upsert(upsertData, { onConflict: 'auth_id', ignoreDuplicates: false }).select()
       showUserInNav(res.data.user)
       closeAuthModal()
     }
@@ -990,9 +1002,11 @@ async function handleEmailAuth(e) {
 async function onTelegramAuth(tg) {
   clearAuthMessages()
   try {
+    const refCode = localStorage.getItem('nexus-ref')
+    const body = refCode ? { ...tg, ref_code: refCode } : tg
     const res = await fetch(TG_EDGE_FN, {
       method: 'POST',
-      body: JSON.stringify(tg),
+      body: JSON.stringify(body),
       headers: { 'Content-Type': 'application/json' }
     })
     const data = await res.json()

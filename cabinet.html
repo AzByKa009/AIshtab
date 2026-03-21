@@ -151,8 +151,10 @@ async function signOut() {
   window.location.href = 'index.html'
 }
 
-function copyRefCode(code) {
-  navigator.clipboard.writeText(code).then(() => {
+let _refLink = ''
+
+function copyRefLink() {
+  navigator.clipboard.writeText(_refLink).then(() => {
     const btn = document.getElementById('copyBtn')
     const orig = btn.textContent
     btn.textContent = 'Скопировано!'
@@ -164,11 +166,26 @@ function renderProfile(user, profile) {
   const name = profile?.first_name || user.user_metadata?.first_name || user.email?.split('@')[0] || 'Пользователь'
   const username = profile?.username || user.user_metadata?.username || ''
   const email = profile?.email || user.email || ''
-  const refCode = profile?.referral_code || '—'
+  const refCode = profile?.referral_code || null
+  const refCount = profile?.referral_count || 0
   const sub = profile?.subscription || 'none'
   const subLabel = sub === 'active' ? '<span class="sub-badge sub-active">Pro</span>' : '<span class="sub-badge sub-free">Free</span>'
   const tgInfo = username ? `@${username}` : (profile?.telegram_id ? `#${profile.telegram_id}` : '—')
   const initial = name.charAt(0).toUpperCase()
+
+  // Строим реферальную ссылку: origin + путь до index + ?ref=CODE
+  const base = window.location.href.replace('cabinet.html', '')
+  _refLink = refCode ? base + '?ref=' + refCode : ''
+
+  const refSection = refCode ? `
+    <div class="ref-card">
+      <div class="ref-label">Реферальная ссылка · <span style="font-weight:400;letter-spacing:0">${refCount} ${refCount === 1 ? 'реферал' : refCount < 5 ? 'реферала' : 'рефералов'}</span></div>
+      <div class="ref-row">
+        <div class="ref-code" style="font-size:13px;letter-spacing:.01em;word-break:break-all">${_refLink}</div>
+        <button class="ref-copy" id="copyBtn" onclick="copyRefLink()">Копировать</button>
+      </div>
+      <div class="ref-hint">Твой код: <strong>${refCode}</strong> · Поделись ссылкой — оба получите бонусы</div>
+    </div>` : ''
 
   document.getElementById('mainContent').innerHTML = `
     <div class="profile-header">
@@ -190,14 +207,7 @@ function renderProfile(user, profile) {
       </div>
     </div>
 
-    <div class="ref-card">
-      <div class="ref-label">Реферальный код</div>
-      <div class="ref-row">
-        <div class="ref-code">${refCode}</div>
-        <button class="ref-copy" id="copyBtn" onclick="copyRefCode('${refCode}')">Копировать</button>
-      </div>
-      <div class="ref-hint">Поделись кодом с друзьями — получи бонусы за каждого нового пользователя</div>
-    </div>
+    ${refSection}
 
     <div class="actions">
       <a href="https://t.me/ATNexus_Bot" target="_blank" class="btn-primary">
