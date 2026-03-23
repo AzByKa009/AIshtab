@@ -159,10 +159,9 @@ h1{font-size:42px;font-weight:800;letter-spacing:-.04em;line-height:1.08;text-tr
   <p class="subtitle">Начни бесплатно. Переходи на Pro когда будешь готов масштабировать продажи.</p>
 
   <div class="billing-toggle">
-    <span class="billing-label active" id="lblMonthly">Ежемесячно</span>
+    <span class="billing-label active" id="lblMonthly">Понедельно</span>
     <button class="toggle-switch" id="billingToggle" onclick="toggleBilling()"></button>
-    <span class="billing-label" id="lblYearly">Ежегодно</span>
-    <span class="save-badge" id="saveBadge" style="display:none">−20%</span>
+    <span class="billing-label" id="lblYearly">Ежемесячно</span>
   </div>
 
   <div class="plans">
@@ -189,8 +188,8 @@ h1{font-size:42px;font-weight:800;letter-spacing:-.04em;line-height:1.08;text-tr
     <div class="plan-card featured">
       <div class="plan-featured-label">Популярный</div>
       <div class="plan-name">Pro</div>
-      <div class="plan-price" id="proPrice">990 <span>₽</span></div>
-      <div class="plan-period" id="proPeriod">в месяц</div>
+      <div class="plan-price" id="proPrice">500 <span>₽</span></div>
+      <div class="plan-period" id="proPeriod">в неделю</div>
       <button class="plan-btn solid" onclick="buyPlan('pro')">Купить Pro</button>
       <div class="plan-divider"></div>
       <div class="plan-feats">
@@ -204,23 +203,6 @@ h1{font-size:42px;font-weight:800;letter-spacing:-.04em;line-height:1.08;text-tr
       </div>
     </div>
 
-    <!-- AGENCY -->
-    <div class="plan-card">
-      <div class="plan-name">Agency</div>
-      <div class="plan-price" id="agencyPrice">2 990 <span>₽</span></div>
-      <div class="plan-period" id="agencyPeriod">в месяц</div>
-      <button class="plan-btn outline" onclick="buyPlan('agency')">Купить Agency</button>
-      <div class="plan-divider"></div>
-      <div class="plan-feats">
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Всё из Pro</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>CRM — без ограничений</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>До 5 Telegram аккаунтов</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>200 сообщений/сутки</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Приоритетная поддержка</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Выгрузка лидов в Excel</div>
-        <div class="plan-feat"><svg class="feat-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>API доступ</div>
-      </div>
-    </div>
 
   </div>
 
@@ -286,28 +268,20 @@ function toggleBilling(){
   const btn = document.getElementById('billingToggle')
   const lblM = document.getElementById('lblMonthly')
   const lblY = document.getElementById('lblYearly')
-  const badge = document.getElementById('saveBadge')
 
   btn.classList.toggle('on', isYearly)
   lblM.classList.toggle('active', !isYearly)
   lblY.classList.toggle('active', isYearly)
-  badge.style.display = isYearly ? '' : 'none'
 
   const proPrice = document.getElementById('proPrice')
   const proPeriod = document.getElementById('proPeriod')
-  const agencyPrice = document.getElementById('agencyPrice')
-  const agencyPeriod = document.getElementById('agencyPeriod')
 
   if (isYearly) {
-    proPrice.innerHTML = '792 <span>₽</span>'
-    proPeriod.innerHTML = 'в месяц · <s>990 ₽</s>'
-    agencyPrice.innerHTML = '2 392 <span>₽</span>'
-    agencyPeriod.innerHTML = 'в месяц · <s>2 990 ₽</s>'
-  } else {
-    proPrice.innerHTML = '990 <span>₽</span>'
+    proPrice.innerHTML = '1 500 <span>₽</span>'
     proPeriod.textContent = 'в месяц'
-    agencyPrice.innerHTML = '2 990 <span>₽</span>'
-    agencyPeriod.textContent = 'в месяц'
+  } else {
+    proPrice.innerHTML = '500 <span>₽</span>'
+    proPeriod.textContent = 'в неделю'
   }
 }
 
@@ -328,7 +302,7 @@ async function buyPlan(plan) {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + session.access_token,
       },
-      body: JSON.stringify({ plan, period: isYearly ? 'year' : 'month' }),
+      body: JSON.stringify({ plan, period: isYearly ? 'month' : 'week' }),
     })
     const data = await res.json()
     if (data.confirmation_url) {
